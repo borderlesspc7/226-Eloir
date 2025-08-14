@@ -29,7 +29,7 @@ export function Logo() {
         </svg>
       </div>
       <div className="logo-text">
-        <h1 className="logo-title">LocalBiz</h1>
+        <h1 className="logo-title">Eloir</h1>
         <p className="logo-tagline">Conectando negócios</p>
       </div>
     </div>
