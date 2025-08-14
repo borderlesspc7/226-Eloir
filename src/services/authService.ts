@@ -69,6 +69,7 @@ export const authService = {
         displayName: credentials.displayName,
         createdAt: new Date(),
         lastLoginAt: new Date(),
+        role: "cliente",
       };
 
       await setDoc(doc(db, "users", firebaseUser.uid), userData);

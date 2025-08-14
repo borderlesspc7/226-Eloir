@@ -1,0 +1,44 @@
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-icon {
+  color: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.logo-icon:hover {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.logo-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.logo-tagline {
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0 0;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .logo-title {
+    font-size: 1.5rem;
+  }
+
+  .logo-tagline {
+    font-size: 0.8rem;
+  }
+}

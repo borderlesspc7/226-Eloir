@@ -4,6 +4,7 @@ export interface User {
   displayName?: string;
   createdAt: Date;
   lastLoginAt: Date;
+  role?: "admin" | "cliente";
 }
 
 export interface AuthState {
@@ -19,6 +20,7 @@ export interface LoginCredentials {
 
 export interface RegisterCredentials extends LoginCredentials {
   displayName: string;
+  phone: string;
 }
 
 export interface AuthError {
