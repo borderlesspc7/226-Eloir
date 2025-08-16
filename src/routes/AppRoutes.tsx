@@ -3,20 +3,9 @@ import { paths } from "./paths";
 import { ProtectedRoute } from "./ProtectedRoute";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
-import { Button } from "../components/ui/Button/Button";
-import { useAuth } from "../hooks/useAuth";
+import RegisterPlace from "../pages/RegisterPlace/RegisterPlace";
 
 export default function AppRoutes() {
-  function Menu() {
-    const { logout } = useAuth();
-    return (
-      <div>
-        <h1>Menu</h1>
-        <Button onClick={() => logout()}>Sair</Button>
-      </div>
-    );
-  }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +16,7 @@ export default function AppRoutes() {
           path={paths.menu}
           element={
             <ProtectedRoute>
-              <Menu />
+              <RegisterPlace />
             </ProtectedRoute>
           }
         />
