@@ -293,6 +293,7 @@ export default function RegisterPlace() {
               <div className="success-message">
                 ✅ Estabelecimento cadastrado com sucesso! Aguarde a moderação.
               </div>
+              //fazer com que a mensagem seja exibida por 3 segundos e depois seja removida
             )}
 
             {submitStatus === "error" && (
