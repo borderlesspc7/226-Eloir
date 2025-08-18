@@ -8,6 +8,8 @@ import { FileUploader } from "../../components/RegisterPlace/FileUploader/FileUp
 import { MultiInputList } from "../../components/RegisterPlace/MultiInputList/MultiInputList";
 import { PlanSelector } from "../../components/RegisterPlace/PlanSelection/PlanSelection";
 import { Button } from "../../components/ui/Button/Button";
+import { useEstablishment } from "../../hooks/useEstablishment";
+import { useAuth } from "../../hooks/useAuth";
 
 interface EstablishmentFormData {
   name: string;
@@ -62,6 +64,8 @@ export default function RegisterPlace() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const { createEstablishment } = useEstablishment();
+  const { user } = useAuth();
 
   const validateCNPJCPF = (value: string): boolean => {
     const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
@@ -100,21 +104,53 @@ export default function RegisterPlace() {
     return Object.keys(newErrors).length === 0;
   };
 
-  //mudar para o firebase
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
+    if (!user?.uid) {
+      setSubmitStatus("error");
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
     try {
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const establishmentData = {
+        name: formData.name,
+        cnpjCpf: formData.cnpjCpf,
+        adress: {
+          country: formData.country,
+          state: formData.state,
+          city: formData.city,
+          street: formData.street,
+          number: formData.number,
+          zipCode: formData.zipCode,
+        },
+        category: formData.category,
+        productsServices: formData.productsServices,
+        plan: formData.plan,
+        documents: formData.documents,
+      };
 
-      console.log("Establishment registered:", formData);
+      await createEstablishment(establishmentData);
       setSubmitStatus("success");
+
+      setFormData({
+        name: "",
+        cnpjCpf: "",
+        country: "Brasil",
+        state: "",
+        city: "",
+        street: "",
+        number: "",
+        zipCode: "",
+        category: "",
+        productsServices: [],
+        plan: "",
+        documents: [],
+      });
     } catch (error) {
       console.error("Registration failed:", error);
       setSubmitStatus("error");
