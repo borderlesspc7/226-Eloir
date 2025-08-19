@@ -1,0 +1,89 @@
+/* Reset e base */
+* {
+  box-sizing: border-box;
+}
+
+/* Layout principal da aplicação */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8fafc;
+}
+
+/* Container que fica abaixo do header */
+.layout-container {
+  display: flex;
+  flex: 1;
+  margin-top: 64px; /* Altura do header fixo */
+  position: relative;
+}
+
+/* Sidebar fixa para desktop */
+.sidebar-fixed {
+  width: 280px;
+  height: calc(100vh - 64px);
+  position: fixed;
+  top: 64px;
+  left: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar mobile (overlay) - escondida no desktop */
+.sidebar-mobile {
+  display: none;
+}
+
+/* Área principal de conteúdo */
+.main-content {
+  flex: 1;
+  margin-left: 280px; /* Sempre com margem para a sidebar fixa */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  min-height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+/* Wrapper interno do conteúdo */
+.content-wrapper {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Responsivo para tablet e mobile */
+@media (max-width: 1024px) {
+  .sidebar-fixed {
+    display: none; /* Esconder sidebar fixa */
+  }
+
+  .sidebar-mobile {
+    display: block; /* Mostrar sidebar mobile */
+  }
+
+  .main-content {
+    margin-left: 0; /* Remover margem */
+  }
+
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 0.75rem;
+  }
+}

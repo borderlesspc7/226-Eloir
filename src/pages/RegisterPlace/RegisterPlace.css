@@ -1,48 +1,40 @@
-.establishment-register-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  padding: 2rem 1rem;
-}
-
 .establishment-register-container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 3rem;
-  align-items: start;
-}
-
-.establishment-register-form-section {
   background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
 }
 
 .establishment-register-header {
-  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  padding: 3rem 2rem;
   text-align: center;
 }
 
 .establishment-register-header h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  color: #1f2937;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .establishment-register-header p {
-  color: #6b7280;
-  font-size: 1rem;
+  font-size: 1.125rem;
   margin: 0;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .establishment-register-form {
+  padding: 3rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .form-section {
@@ -52,101 +44,111 @@
 }
 
 .form-section h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #374151;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #1f2937;
   margin: 0;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #e5e7eb;
 }
 
+/* Grid para campos lado a lado */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Grid especial para endereços */
 .address-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.address-grid .text-input-container:first-child {
+/* Seção de serviços ocupa toda a largura */
+.services-section {
   grid-column: 1 / -1;
 }
 
-.establishment-register-brand-section {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* Ações do formulário */
+.form-actions {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  text-align: center;
-  position: sticky;
-  top: 2rem;
+  justify-content: center;
 }
 
-.brand-image {
-  width: 100%;
-  max-width: 300px;
-}
-
-.brand-illustration {
-  width: 100%;
-  height: auto;
+.form-actions button {
+  min-width: 300px;
+  height: 56px;
+  font-size: 1.125rem;
+  font-weight: 600;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  transition: all 0.3s ease;
 }
 
-.brand-text h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0 0 0.5rem 0;
+.form-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
 }
 
-.brand-text p {
-  color: #6b7280;
-  line-height: 1.6;
-  margin: 0;
-}
-
+/* Mensagens de status */
 .success-message {
-  background-color: #dcfce7;
-  color: #166534;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #bbf7d0;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .error-message {
-  background-color: #fef2f2;
-  color: #dc2626;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #fecaca;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
   text-align: center;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-/* Mobile responsive */
-@media (max-width: 768px) {
-  .establishment-register-page {
-    padding: 1rem;
+/* Responsividade */
+@media (max-width: 1024px) {
+  .establishment-register-form {
+    padding: 2rem;
   }
 
-  .establishment-register-container {
+  .establishment-register-header {
+    padding: 2rem;
+  }
+
+  .establishment-register-header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .address-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .establishment-register-form {
+    padding: 1.5rem;
     gap: 2rem;
   }
 
-  .establishment-register-brand-section {
-    order: -1;
-    position: static;
-  }
-
-  .establishment-register-form-section {
+  .establishment-register-header {
     padding: 1.5rem;
   }
 
@@ -154,11 +156,37 @@
     font-size: 1.75rem;
   }
 
-  .address-grid {
-    grid-template-columns: 1fr;
+  .establishment-register-header p {
+    font-size: 1rem;
   }
 
-  .brand-text h2 {
+  .form-actions button {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .establishment-register-page {
+    padding: 0.5rem;
+  }
+
+  .establishment-register-container {
+    border-radius: 12px;
+  }
+
+  .establishment-register-form {
+    padding: 1rem;
+  }
+
+  .establishment-register-header {
+    padding: 1rem;
+  }
+
+  .establishment-register-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-section h3 {
     font-size: 1.25rem;
   }
 }

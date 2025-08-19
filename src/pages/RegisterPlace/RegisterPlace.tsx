@@ -1,12 +1,9 @@
-"use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./RegisterPlace.css";
-import { Logo } from "../../components/ui/Logo/Logo";
 import { TextInput } from "../../components/ui/TextInput/TextInput";
 import { Dropdown } from "../../components/RegisterPlace/Dropdown/Dropdown";
 import { FileUploader } from "../../components/RegisterPlace/FileUploader/FileUploader";
 import { MultiInputList } from "../../components/RegisterPlace/MultiInputList/MultiInputList";
-import { PlanSelector } from "../../components/RegisterPlace/PlanSelection/PlanSelection";
 import { Button } from "../../components/ui/Button/Button";
 import { useEstablishment } from "../../hooks/useEstablishment";
 import { useAuth } from "../../hooks/useAuth";
@@ -22,7 +19,6 @@ interface EstablishmentFormData {
   zipCode: string;
   category: string;
   productsServices: string[];
-  plan: string;
   documents: File[];
 }
 
@@ -55,7 +51,6 @@ export default function RegisterPlace() {
     zipCode: "",
     category: "",
     productsServices: [],
-    plan: "",
     documents: [],
   });
 
@@ -66,6 +61,18 @@ export default function RegisterPlace() {
   >("idle");
   const { createEstablishment } = useEstablishment();
   const { user } = useAuth();
+
+  // Auto-hide da mensagem de sucesso/erro após 3 segundos
+  useEffect(() => {
+    if (submitStatus === "success" || submitStatus === "error") {
+      const timer = setTimeout(() => {
+        setSubmitStatus("idle");
+      }, 3000); // 3 segundos
+
+      // Cleanup: limpa o timer se o componente for desmontado
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   const validateCNPJCPF = (value: string): boolean => {
     const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
@@ -98,7 +105,6 @@ export default function RegisterPlace() {
     if (formData.productsServices.length === 0) {
       newErrors.productsServices = "Adicione pelo menos um produto ou serviço";
     }
-    if (!formData.plan) newErrors.plan = "Selecione um plano";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -130,8 +136,8 @@ export default function RegisterPlace() {
         },
         category: formData.category,
         productsServices: formData.productsServices,
-        plan: formData.plan,
         documents: formData.documents,
+        plan: "",
       };
 
       await createEstablishment(establishmentData);
@@ -148,7 +154,6 @@ export default function RegisterPlace() {
         zipCode: "",
         category: "",
         productsServices: [],
-        plan: "",
         documents: [],
       });
     } catch (error) {
@@ -172,15 +177,18 @@ export default function RegisterPlace() {
   return (
     <div className="establishment-register-page">
       <div className="establishment-register-container">
-        <div className="establishment-register-form-section">
-          <div className="establishment-register-header">
-            <h1>Cadastrar Estabelecimento</h1>
-            <p>Registre seu negócio na nossa plataforma</p>
-          </div>
+        <div className="establishment-register-header">
+          <h1>Cadastrar Estabelecimento</h1>
+          <p>
+            Registre seu negócio na nossa plataforma e conecte-se com milhares
+            de clientes
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="establishment-register-form">
-            <div className="form-section">
-              <h3>Informações Básicas</h3>
+        <form onSubmit={handleSubmit} className="establishment-register-form">
+          <div className="form-section">
+            <h3>Informações Básicas</h3>
+            <div className="form-grid">
               <TextInput
                 label="Nome do Estabelecimento"
                 value={formData.name}
@@ -197,61 +205,63 @@ export default function RegisterPlace() {
                 placeholder="12.345.678/0001-90 ou 123.456.789-01"
               />
             </div>
+          </div>
 
-            <div className="form-section">
-              <h3>Endereço</h3>
-              <div className="address-grid">
-                <TextInput
-                  label="País"
-                  value={formData.country}
-                  onChange={(e) => updateFormData("country", e.target.value)}
-                  error={errors.country}
-                />
+          <div className="form-section">
+            <h3>Endereço</h3>
+            <div className="address-grid">
+              <TextInput
+                label="País"
+                value={formData.country}
+                onChange={(e) => updateFormData("country", e.target.value)}
+                error={errors.country}
+              />
 
-                <TextInput
-                  label="Estado"
-                  value={formData.state}
-                  onChange={(e) => updateFormData("state", e.target.value)}
-                  error={errors.state}
-                  placeholder="Ex: São Paulo"
-                />
+              <TextInput
+                label="Estado"
+                value={formData.state}
+                onChange={(e) => updateFormData("state", e.target.value)}
+                error={errors.state}
+                placeholder="Ex: São Paulo"
+              />
 
-                <TextInput
-                  label="Cidade"
-                  value={formData.city}
-                  onChange={(e) => updateFormData("city", e.target.value)}
-                  error={errors.city}
-                  placeholder="Ex: São Paulo"
-                />
+              <TextInput
+                label="Cidade"
+                value={formData.city}
+                onChange={(e) => updateFormData("city", e.target.value)}
+                error={errors.city}
+                placeholder="Ex: São Paulo"
+              />
 
-                <TextInput
-                  label="Rua"
-                  value={formData.street}
-                  onChange={(e) => updateFormData("street", e.target.value)}
-                  error={errors.street}
-                  placeholder="Ex: Rua das Flores"
-                />
+              <TextInput
+                label="Rua"
+                value={formData.street}
+                onChange={(e) => updateFormData("street", e.target.value)}
+                error={errors.street}
+                placeholder="Ex: Rua das Flores"
+              />
 
-                <TextInput
-                  label="Número"
-                  value={formData.number}
-                  onChange={(e) => updateFormData("number", e.target.value)}
-                  error={errors.number}
-                  placeholder="123"
-                />
+              <TextInput
+                label="Número"
+                value={formData.number}
+                onChange={(e) => updateFormData("number", e.target.value)}
+                error={errors.number}
+                placeholder="123"
+              />
 
-                <TextInput
-                  label="CEP"
-                  value={formData.zipCode}
-                  onChange={(e) => updateFormData("zipCode", e.target.value)}
-                  error={errors.zipCode}
-                  placeholder="01234-567"
-                />
-              </div>
+              <TextInput
+                label="CEP"
+                value={formData.zipCode}
+                onChange={(e) => updateFormData("zipCode", e.target.value)}
+                error={errors.zipCode}
+                placeholder="01234-567"
+              />
             </div>
+          </div>
 
-            <div className="form-section">
-              <h3>Categoria e Serviços</h3>
+          <div className="form-section">
+            <h3>Categoria e Serviços</h3>
+            <div className="form-grid">
               <Dropdown
                 label="Categoria do Estabelecimento"
                 value={formData.category}
@@ -261,47 +271,44 @@ export default function RegisterPlace() {
                 placeholder="Selecione uma categoria"
               />
 
-              <MultiInputList
-                label="Categorias e Serviços"
-                items={formData.productsServices}
-                onChange={(items) => updateFormData("productsServices", items)}
-                error={errors.productsServices}
-                placeholder="Ex: Pizza margherita, Hambúrguer artesanal"
-              />
-            </div>
-
-            <div className="form-section">
-              <h3>Plano de Assinatura</h3>
-              <PlanSelector
-                selectedPlan={formData.plan}
-                onChange={(plan) => updateFormData("plan", plan)}
-                error={errors.plan}
-              />
-            </div>
-
-            <div className="form-section">
-              <h3>Documentos (Opcional)</h3>
-              <FileUploader
-                files={formData.documents}
-                onChange={(files) => updateFormData("documents", files)}
-                maxFiles={5}
-                acceptedTypes={[".pdf", ".jpg", ".jpeg", ".png"]}
-              />
-            </div>
-
-            {submitStatus === "success" && (
-              <div className="success-message">
-                ✅ Estabelecimento cadastrado com sucesso! Aguarde a moderação.
+              <div className="services-section">
+                <MultiInputList
+                  label="Produtos e Serviços"
+                  items={formData.productsServices}
+                  onChange={(items) =>
+                    updateFormData("productsServices", items)
+                  }
+                  error={errors.productsServices}
+                  placeholder="Ex: Pizza margherita, Hambúrguer artesanal"
+                />
               </div>
-              //fazer com que a mensagem seja exibida por 3 segundos e depois seja removida
-            )}
+            </div>
+          </div>
 
-            {submitStatus === "error" && (
-              <div className="error-message">
-                ❌ Erro ao cadastrar estabelecimento. Tente novamente.
-              </div>
-            )}
+          <div className="form-section">
+            <h3>Documentos (Opcional)</h3>
+            <FileUploader
+              files={formData.documents}
+              onChange={(files) => updateFormData("documents", files)}
+              maxFiles={5}
+              acceptedTypes={[".pdf", ".jpg", ".jpeg", ".png"]}
+            />
+          </div>
 
+          {submitStatus === "success" && (
+            <div className="success-message">
+              ✅ Estabelecimento cadastrado com sucesso! Aguarde a moderação.
+            </div>
+            //fazer com que a mensagem seja exibida por 3 segundos e depois seja removida
+          )}
+
+          {submitStatus === "error" && (
+            <div className="error-message">
+              ❌ Erro ao cadastrar estabelecimento. Tente novamente.
+            </div>
+          )}
+
+          <div className="form-actions">
             <Button
               type="submit"
               fullWidth
@@ -310,26 +317,8 @@ export default function RegisterPlace() {
             >
               {isSubmitting ? "Cadastrando..." : "Cadastrar Estabelecimento"}
             </Button>
-          </form>
-        </div>
-
-        <div className="establishment-register-brand-section">
-          <Logo />
-          <div className="brand-image">
-            <img
-              src="/placeholder.svg?height=300&width=400"
-              alt="Ilustração de comércio local"
-              className="brand-illustration"
-            />
           </div>
-          <div className="brand-text">
-            <h2>Faça parte da nossa rede</h2>
-            <p>
-              Conecte seu negócio com milhares de clientes locais e aumente suas
-              vendas.
-            </p>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );
