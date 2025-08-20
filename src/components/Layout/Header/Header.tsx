@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({
           <Link to="/menu" className="nav-link">
             Inicio
           </Link>
-          <Link to="/menu/establishments" className="nav-link">
+          <Link to="/menu/estabelecimentos" className="nav-link">
             Estabelecimentos próximos
           </Link>
           <Link to="/menu/register-place" className="nav-link">

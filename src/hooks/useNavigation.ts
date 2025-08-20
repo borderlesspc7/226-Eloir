@@ -1,10 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export function useNavigation() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const goTo = (path: string) => {
-    navigate(path);
+    // Se estamos em uma rota aninhada (/menu/*) e o path é relativo,
+    // navegamos para a rota pai + path
+    if (location.pathname.startsWith("/menu") && !path.startsWith("/")) {
+      navigate(`/menu/${path}`);
+    } else {
+      navigate(path);
+    }
   };
 
   const goBack = () => {
@@ -12,7 +19,11 @@ export function useNavigation() {
   };
 
   const replace = (path: string) => {
-    navigate(path, { replace: true });
+    if (location.pathname.startsWith("/menu") && !path.startsWith("/")) {
+      navigate(`/menu/${path}`, { replace: true });
+    } else {
+      navigate(path, { replace: true });
+    }
   };
 
   return { goTo, goBack, replace };

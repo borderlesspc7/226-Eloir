@@ -31,7 +31,7 @@ const menuItems: MenuItem[] = [
     icon: <FaHome />,
   },
   {
-    href: "/menu/establishments",
+    href: "/menu/estabelecimentos",
     label: "Estabelecimentos próximos",
     icon: <FaStore />,
   },

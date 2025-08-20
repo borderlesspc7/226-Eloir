@@ -1,7 +1,11 @@
 import "./HomePage.css";
 import { FaStore, FaPlus, FaStar, FaUser } from "react-icons/fa";
+import { useNavigation } from "../../hooks/useNavigation";
+import { paths } from "../../routes/paths";
 
 export default function HomePage() {
+  const { goTo } = useNavigation();
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -18,7 +22,12 @@ export default function HomePage() {
           </div>
           <h3>Estabelecimentos Próximos</h3>
           <p>Encontre comércios, serviços e indústrias na sua região</p>
-          <button className="card-button">Ver Estabelecimentos</button>
+          <button
+            className="card-button"
+            onClick={() => goTo(paths.establishments)}
+          >
+            Ver Estabelecimentos
+          </button>
         </div>
 
         <div className="dashboard-card">
@@ -27,7 +36,12 @@ export default function HomePage() {
           </div>
           <h3>Cadastrar Estabelecimento</h3>
           <p>Registre seu negócio na nossa plataforma</p>
-          <button className="card-button">Cadastrar Agora</button>
+          <button
+            className="card-button"
+            onClick={() => goTo(paths.registerPlace)}
+          >
+            Cadastrar Agora
+          </button>
         </div>
 
         <div className="dashboard-card">

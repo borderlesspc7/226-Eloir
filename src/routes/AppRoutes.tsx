@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { paths } from "./paths";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Layout } from "../components/Layout/Layout";
@@ -15,6 +15,9 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Rota raiz - redireciona para o login */}
+        <Route path="/" element={<Navigate to={paths.login} replace />} />
+
         {/* Rotas públicas */}
         <Route path={paths.login} element={<LoginPage />} />
         <Route path={paths.register} element={<RegisterPage />} />
@@ -29,7 +32,7 @@ export default function AppRoutes() {
           }
         >
           <Route index element={<HomePage />} />
-          <Route path="establishments" element={<EstablishmentsPage />} />
+          <Route path="estabelecimentos" element={<EstablishmentsPage />} />
           <Route path="register-place" element={<RegisterPlace />} />
           <Route
             path="meus-estabelecimentos"

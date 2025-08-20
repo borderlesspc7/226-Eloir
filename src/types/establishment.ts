@@ -70,3 +70,17 @@ export interface EstablishmentFilters {
   status?: "pending" | "approved" | "rejected";
   userId?: string;
 }
+
+export interface EstablishmentListFilters {
+  search: string;
+  category: string;
+  country: string;
+  state: string;
+  city: string;
+  sortBy: "name" | "rating" | "newest";
+}
+
+export interface EstablishmentWithRating extends Establishment {
+  rating?: number;
+  reviewCount?: number;
+}
